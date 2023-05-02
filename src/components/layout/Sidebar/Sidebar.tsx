@@ -44,7 +44,7 @@ const Sidebar = () => {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/portifolio/listagem" >
+                        <NavLink to="/portifolio/lista" >
                             Listagem de portifólios
                         </NavLink>
                     </li>

@@ -7,7 +7,10 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import styles from "./Cadastrarexperiencia.module.css";
 import Input from "../../../components/forms/Input/Input";
 
+import Select from "../../../components/forms/Select/Select";
+
 interface FormValues {
+    tipo: string;
     titulo: string;
     instituicao: string;
     status: string;
@@ -18,6 +21,7 @@ interface FormValues {
 const Cadastrarexperiencia: React.FC = () => {
 
     const initialValues: FormValues = {
+        tipo: "",
         titulo: "",
         instituicao: "",
         status: "",
@@ -26,11 +30,12 @@ const Cadastrarexperiencia: React.FC = () => {
     };
 
     const validationSchema = Yup.object().shape({
+        tipo: Yup.string().required('Campo obrigatório'),
         titulo: Yup.string().required('Campo obrigatório'),
         instituicao: Yup.string().required('Campo obrigatório'),
         status: Yup.string().required('Campo obrigatório'),
         anoInicio: Yup.number().required('Campo obrigatório').typeError('É necessário um valor numérico'),
-        anoFim: Yup.number().required('Campo obrigatório').typeError('É necessário um valor numérico'),
+        anoFim: Yup.number().typeError('É necessário um valor numérico'),
     });
 
     const onSubmit = (values: FormValues, { resetForm }: { resetForm: () => void }) => {
@@ -48,8 +53,14 @@ const Cadastrarexperiencia: React.FC = () => {
             >
                 {({ errors, touched }) => (
                     <Form className={styles.form}>
-                        <h2 className={styles.title}> Cadastrar Experiência </h2>
-
+                        <Select
+                            label="Tipo"
+                            name="tipo"
+                            options={[
+                                { value: "academico", label: "Acadêmico" },
+                                { value: "profissional", label: "Profissional" },
+                            ]}
+                        />
                         <Input
                             label="Título"
                             name="titulo"
@@ -62,11 +73,13 @@ const Cadastrarexperiencia: React.FC = () => {
                             errors={errors.instituicao}
                             touched={touched.instituicao}
                         />
-                        <Input
+                        <Select
                             label="Status"
                             name="status"
-                            errors={errors.status}
-                            touched={touched.status}
+                            options={[
+                                { value: "cursando", label: "Cursando / Emprego Atual" },
+                                { value: "concluido", label: "Concluido / Ex-Emprego" },
+                            ]}
                         />
                         <Input
                             label="Ano de Início"

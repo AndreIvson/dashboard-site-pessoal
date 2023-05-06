@@ -30,8 +30,8 @@ const Sidebar = () => {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/curriculo/experiencia/listagem" >
-                            Listagem de experiências
+                        <NavLink to="/curriculo/experiencia/lista" >
+                            Lista de experiências
                         </NavLink>
                     </li>
                 </ul>
@@ -45,7 +45,7 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <NavLink to="/portifolio/lista" >
-                            Listagem de portifólios
+                            Lista de portifólios
                         </NavLink>
                     </li>
                 </ul>

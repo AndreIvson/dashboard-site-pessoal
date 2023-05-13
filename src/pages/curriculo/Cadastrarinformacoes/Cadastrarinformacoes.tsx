@@ -1,23 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import * as Yup from 'yup';
 
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form } from 'formik';
 
 import styles from "./Cadastrarinformacoes.module.css";
 import Input from "../../../components/forms/Input/Input";
 import Textarea from "../../../components/forms/Textarea/Textarea";
-
-interface FormValues {
-    foto: string;
-    nome: string;
-    cargo: string;
-    resumo: string;
-};
+import { Informacoes, createInformacoes, getInformacoes } from "../../../services/informacoesService";
+import InformacoesCard from "./InformacoesCard/InformacoesCard";
 
 const Cadastrarinformacoes: React.FC = () => {
 
-    const initialValues: FormValues = {
+    const [informacoes, setInformacoes] = useState<Informacoes>({} as Informacoes);
+
+    const initialValues: Informacoes = {
+        id: 1,
         foto: '',
         nome: '',
         cargo: '',
@@ -31,56 +29,80 @@ const Cadastrarinformacoes: React.FC = () => {
         resumo: Yup.string().required('Campo obrigatório'),
     });
 
-    const onSubmit = (values: FormValues, { resetForm }: { resetForm: () => void }) => {
-        // Lógica de envio para backend
-        console.log(values);
-        resetForm();
-        alert('Formulário enviado com sucesso!');
+    const fetchInformacao = async () => {
+        try {
+            const informacao = await getInformacoes();
+            setInformacoes(informacao);
+        } catch (error) {
+            console.error('Erro ao buscar informações:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchInformacao();
+    }, []);
+
+    const onSubmit = async (values: Informacoes, { resetForm }: { resetForm: () => void }) => {
+        try {
+            await createInformacoes(values);
+            setInformacoes(values);
+            console.log(values);
+            resetForm();
+            alert('Formulário enviado com sucesso!');
+
+        } catch (error) {
+            console.error('Erro ao enviar o formulário:', error);
+            alert('Ocorreu um erro ao  enviar o formulário. Tente novamente.');
+        }
+
     };
 
     return (
         <div className={styles.formWrapper}>
             <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-               {({ errors, touched }) => ( 
-                <Form className={styles.form}>
+                {({ errors, touched }) => (
+                    <Form className={styles.form}>
 
-                    <h2 className={styles.title}> Cadastrar Informações </h2>
+                        <h2 className={styles.title}> Cadastrar Informações </h2>
 
-                    <Input 
-                        label="Foto"
-                        name="foto"
-                        errors={errors.nome}
-                        touched={touched.nome}
-                    />
+                        <Input
+                            label="Foto"
+                            name="foto"
+                            errors={errors.nome}
+                            touched={touched.nome}
+                        />
 
-                    <Input
-                        label="Nome"
-                        name="nome"
-                        errors={errors.nome}
-                        touched={touched.nome}
-                    />
+                        <Input
+                            label="Nome"
+                            name="nome"
+                            errors={errors.nome}
+                            touched={touched.nome}
+                        />
 
-                    <Input 
-                        label="Cargo" 
-                        name="cargo"
-                        errors={errors.cargo}
-                        touched={touched.cargo}
-                    />
-    
+                        <Input
+                            label="Cargo"
+                            name="cargo"
+                            errors={errors.cargo}
+                            touched={touched.cargo}
+                        />
 
-                    <Textarea
-                        label="Resumo"
-                        name="resumo"
-                        errors={errors.resumo}
-                        touched={touched.resumo}
 
-                    />
+                        <Textarea
+                            label="Resumo"
+                            name="resumo"
+                            errors={errors.resumo}
+                            touched={touched.resumo}
 
-                    <button type="submit" className={styles.button}>Salvar</button>
+                        />
 
-                </Form>
+                        <button type="submit" className={styles.button}>Salvar</button>
+
+                    </Form>
                 )}
             </Formik>
+
+            <InformacoesCard informacoes={informacoes} />
+
         </div>
     );
 

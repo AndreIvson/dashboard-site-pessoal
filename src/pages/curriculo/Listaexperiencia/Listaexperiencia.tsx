@@ -1,33 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+import { useNavigate } from "react-router-dom";
 
 import styles from "./Listaexperiencia.module.css";
 
-interface Experiencia {
-    titulo: string;
-    empresa: string;
-    tipo: string;
-    anoInicio: string;
-    anoFim: string;
-}
+import { Experiencia, deleteExperiencia, getExperiencias } from "../../../services/experienciaService";
 
 const Listaexperiencia: React.FC = () => {
-    const [experiencias, setExperiencias] = React.useState<Experiencia[]>([
-        {
-            titulo: "Frentista",
-            empresa: "Auto posto Vianinho",
-            tipo: "profissional",
-            anoInicio: "2021",
-            anoFim: "2023",
+    const navigate = useNavigate();
+
+    const [experiencias, setExperiencias] = React.useState<Experiencia[]>([]);
+
+    const fetchExperiencias = async () => {
+        try {
+            const experiencias = await getExperiencias();
+            setExperiencias(experiencias);
+        } catch (error) {
+            console.log('Erro ao buscar experiêcias', error);
         }
-    ]);
+    };
+    useEffect(() => {
+        fetchExperiencias();
+    }, []);
 
-    const handleDelete = (index: number) => {
-        // logica de excluir
+      const handleEdit = (experiencia: Experiencia) => {
+        navigate("/curriculo/experiencia/cadastro", { state: experiencia});
     }
+    
+    const handleDelete = async (id: number) => {
+        try {
+            await deleteExperiencia(id);
+            fetchExperiencias();
+            alert('Experiência excluída com sucesso!');
+        } catch (error) {
+            console.log('Erro ao deletar experiência', error);
+            alert('Erro ao deletar experiência');
+        }
+    };
 
-    const handleEdit = (experiecia: Experiencia) => {
-        // logica de editar
-    }
+  
     return (
         <table className={styles.table}>
             <thead>
@@ -44,13 +55,13 @@ const Listaexperiencia: React.FC = () => {
                 {experiencias.map((experiencia, index) => (
                     <tr key={index}>
                         <td>{experiencia.titulo}</td>
-                        <td>{experiencia.empresa}</td>
+                        <td>{experiencia.instituicao}</td>
                         <td>{experiencia.tipo}</td>
                         <td>{experiencia.anoInicio}</td>
                         <td>{experiencia.anoFim}</td>
                         <td>
                             <button onClick={() => handleEdit(experiencia)}>Editar</button>
-                            <button onClick={() => handleDelete(index)}>Excluir</button>
+                            <button onClick={() => handleDelete(experiencia.id)}>Excluir</button>
                         </td>
                     </tr>
                 ))}

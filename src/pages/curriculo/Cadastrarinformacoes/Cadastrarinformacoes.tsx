@@ -7,7 +7,7 @@ import { Formik, Form } from 'formik';
 import styles from "./Cadastrarinformacoes.module.css";
 import Input from "../../../components/forms/Input/Input";
 import Textarea from "../../../components/forms/Textarea/Textarea";
-import { Informacoes, createInformacoes, getInformacoes } from "../../../services/informacoesService";
+import { Informacoes, updateInformacoes, getInformacoes } from "../../../services/informacoesService";
 import InformacoesCard from "./InformacoesCard/InformacoesCard";
 
 const Cadastrarinformacoes: React.FC = () => {
@@ -44,7 +44,7 @@ const Cadastrarinformacoes: React.FC = () => {
 
     const onSubmit = async (values: Informacoes, { resetForm }: { resetForm: () => void }) => {
         try {
-            await createInformacoes(values);
+            await updateInformacoes(values);
             setInformacoes(values);
             console.log(values);
             resetForm();
@@ -57,9 +57,26 @@ const Cadastrarinformacoes: React.FC = () => {
 
     };
 
+    const handleDelete = async () => {
+        try {
+            await updateInformacoes(initialValues);
+            setInformacoes(initialValues);
+            alert('Informacões excluídas com sucesso!');
+        } catch (error) {
+            console.error('Erro ao excluir informações:', error);
+            alert('Ocorreu um erro ao excluir as informações. Tente novamente.');
+        }
+    };
+
     return (
         <div className={styles.formWrapper}>
-            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+
+            <Formik
+                initialValues={informacoes}
+                enableReinitialize={true}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}>
+                    
                 {({ errors, touched }) => (
                     <Form className={styles.form}>
 
@@ -101,8 +118,20 @@ const Cadastrarinformacoes: React.FC = () => {
                 )}
             </Formik>
 
-            <InformacoesCard informacoes={informacoes} />
-
+            {informacoes &&
+                Object.entries(informacoes).some(
+                    ([key, value]) => key !== 'id' && value.trim() !== ""
+                ) && (
+                    <div className={styles.cardContainer}>
+                        <InformacoesCard informacoes={informacoes} />
+                        <button
+                            type="button"
+                            onClick={handleDelete}
+                            className={`${styles.button} ${styles.deleteButton}`}>
+                            Excluir
+                        </button>
+                    </div>
+                    )}
         </div>
     );
 

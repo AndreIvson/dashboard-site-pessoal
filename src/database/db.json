@@ -3,9 +3,9 @@
     {
       "id": 1,
       "foto": "https://github.com/AndreIvson.png",
-      "nome": "André Ivson",
-      "cargo": "Estudante ",
-      "resumo": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, doloremque. "
+      "nome": "André Silva",
+      "cargo": "Estudante",
+      "resumo": "teste"
     }
   ],
   "experiencias": [],

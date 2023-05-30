@@ -32,8 +32,14 @@
     {
       "id": 3,
       "link": "https://picsum.photos/",
+      "image": "https://picsum.photos/id/237/100/100",
+      "title": "Dog"
+    },
+    {
+      "id": 4,
+      "link": "https://picsum.photos/",
       "image": "https://picsum.photos/100/100",
-      "title": "Teste"
+      "title": "Coisas legais"
     }
   ]
 }

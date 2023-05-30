@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import styles from "./Listaportfolio.module.css";
 import { Portfolio, deletePortfolio, getPortfolio } from "../../../services/portfolioServices";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../components/common/button";
@@ -44,7 +43,7 @@ const Listaportfolio: React.FC = () => {
         <Table
             data={portfolio}
             columns={['Título', 'Imagem', 'Link', 'Ações']}
-            renderRow={(portfolio, index) => (
+            renderRow={(portfolio) => (
                 <>
                     <td>{portfolio.title}</td>
                     <td><img src={portfolio.image} alt="Imagem do portfolio"></img></td>

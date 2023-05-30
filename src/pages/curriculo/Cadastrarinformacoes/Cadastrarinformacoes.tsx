@@ -21,7 +21,7 @@ const Cadastrarinformacoes: React.FC = () => {
         cargo: '',
         resumo: '',
     };
-
+    
     const validationSchema = Yup.object().shape({
         foto: Yup.string().required('Campo obrigatório'),
         nome: Yup.string().required('Campo obrigatório'),

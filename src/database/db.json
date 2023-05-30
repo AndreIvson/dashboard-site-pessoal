@@ -3,11 +3,37 @@
     {
       "id": 1,
       "foto": "https://github.com/AndreIvson.png",
-      "nome": "André Silva",
+      "nome": "André",
       "cargo": "Estudante",
       "resumo": "teste"
     }
   ],
-  "experiencias": [],
-  "portifolio": []
+  "experiencias": [
+    {
+      "id": 1,
+      "tipo": "academico",
+      "titulo": "teste",
+      "instituicao": "teste",
+      "status": "cursando",
+      "anoInicio": "2010",
+      "anoFim": "2011"
+    },
+    {
+      "id": 2,
+      "tipo": "profissional",
+      "titulo": "Teste1",
+      "instituicao": "teste1",
+      "status": "concluido",
+      "anoInicio": "2012",
+      "anoFim": "2011"
+    }
+  ],
+  "portfolio": [
+    {
+      "id": 3,
+      "link": "https://picsum.photos/",
+      "image": "https://picsum.photos/100/100",
+      "title": "Teste"
+    }
+  ]
 }

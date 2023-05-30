@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import { Field, ErrorMessage } from "formik";
+import { Field, ErrorMessage } from 'formik';
 
-import styles from "./Input.module.css";
+import styles from './input.module.css';
 
 interface InputProps {
     label: string;
@@ -10,17 +10,13 @@ interface InputProps {
     type?: string;
     errors?: string;
     touched?: boolean;
-    value?: string;
-    checked?: boolean;
-    onchange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    event?: React.ChangeEvent<HTMLInputElement>;
 }
 
-const Input: React.FC<InputProps> = ({ label, name, type, errors, touched }) => {
+const Input: React.FC<InputProps> = ({ label, name, type = 'text', errors, touched }) => {
     return (
         <fieldset className={styles.formGroup}>
             <label htmlFor={name} className={styles.label}>
-                {label}:
+                {label}
             </label>
             <Field
                 type={type}
